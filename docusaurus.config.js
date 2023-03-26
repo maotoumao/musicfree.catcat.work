@@ -60,7 +60,7 @@ const config = {
         title: 'MusicFree',
         logo: {
           alt: 'MusicFree',
-          src: 'img/logo.jpg',
+          src: 'https://img1.imgtp.com/2023/03/26/ueSnkLf8.jpg',
         },
         items: [{
           type: 'doc',

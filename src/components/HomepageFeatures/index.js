@@ -23,7 +23,7 @@ const FeatureList = [
   },
   {
     title: '版本更新',
-    img: require('@site/static/img/wechat_channel.jpg').default,
+    img: "https://img1.imgtp.com/2023/03/26/o8ckNA1Z.jpg",
     description: (
       <>
         获取最新消息、反馈问题或者提供建议可以关注公众号【一只猫头猫】。不定期更新（尽量保证更新频率）。
