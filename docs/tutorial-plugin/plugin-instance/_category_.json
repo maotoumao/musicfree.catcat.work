@@ -1,0 +1,8 @@
+{
+  "label": "插件协议",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "插件协议，即插件的module.exports中的字段。"
+  }
+}

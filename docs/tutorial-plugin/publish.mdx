@@ -1,0 +1,22 @@
+---
+sidebar_position: 5
+---
+
+# 安装插件
+开发好的插件保存为js文件后可以直接在app内通过本地文件导入。
+
+导入的文件其实是拷贝到了固定目录（Android/data/fun.upup.musicfree/files/plugins）  目录下，每次启动app时都会从这个目录下读取插件文件。   
+
+也可以把这个js文件部署到cdn或git上，使用指向这个js文件的url，在app内选择“通过网络导入”。
+
+除了上述方式之外，还可以批量安装插件，只需要定义一个格式如下的json文件，再通过网络安装即可：
+```json
+{
+    "plugins": [
+        {
+            "name": "插件名",
+            "url": "https://xxx.js"
+        }
+    ]
+}
+```

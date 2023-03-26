@@ -1,0 +1,28 @@
+---
+sidebar_position: 1
+---
+
+# 基本框架
+
+
+我们以一个第三方音乐网站[freesound](https://freesound.org/search/?q=)为例，做一个支持搜索、播放功能的插件。Freesound的界面如下图所示：
+
+![freesound.png](https://img1.imgtp.com/2023/03/26/72BBRu4F.png)
+
+其右上角为搜索框，左下角为搜索内容、页码等信息。相关音源的信息都在html页面中，因此直接解析html结构即可完成相关搜索、播放的行为。
+
+
+## 代码
+首先，按照插件的模板，写出整体的框架：
+```javascript
+
+module.exports = {
+    platform: 'FreeSound', // 插件名
+    version: '0.0.0', // 版本号
+    srcUrl: 'https://gitee.com/maotoumao/MusicFreePlugins/raw/master/freesound.js', // 更新链接；当在app更新插件后会自动用此地址的插件覆盖
+    cacheControl: 'no-store', // 我们可以直接解析出musicItem的结构，因此选取no-store就好了，当然也可以不写这个字段
+}
+
+```
+
+我们首先做搜索功能，也就是完成一个search方法。

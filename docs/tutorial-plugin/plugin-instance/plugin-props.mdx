@@ -1,0 +1,138 @@
+---
+sidebar_position: 1
+---
+
+# 插件的基础信息
+
+一些静态的字段，用来描述插件的基础信息：
+
+
+|  属性名   | 值类型  | 是否必填 | 默认值 | 备注 |
+|  ---  | ---  | --- | --- | --- |
+| platform  | string | 是 | - | 插件名称 |
+| version  | string | 否 | "0.0.0" | 插件版本号，需要遵循samver | 
+| appVersion  | string | 否 | ">0.0.0" | 配套使用的app版本，防止出现不兼容的情况 |
+| srcUrl | string | 否 | - | 插件的更新地址 |
+| primaryKey  | Array&lt;string&gt; | 否 | ["id"] | 主键，通常是插件实例方法中必须的参数 |
+| cacheControl  | "no-cache" &#124; "no-store" &#124; "cache" | 否 | "cache" | 插件结果的缓存策略 |
+| defaultSearchType  | "music" &#124; "album" &#124; "artist" | 否 | "music" | 进入搜索页时默认的搜索类型 |
+| hints  | Record<string, string[]> | 否 | - | APP内一些场景用到的提示文案 |
+
+
+
+
+## *插件名称(platform)
+插件名称，必填。（标题上标型号的表示必填字段，下同）
+
+任意合法的字符串即可，插件名称会被自动附加在每一个插件实例方法返回的媒体类型上，因此在插件的基本媒体类型无需显示提供platform字段。
+如果插件名为“本地”，则此插件会失效。
+
+``` typescript
+module.exports = {
+    platform: "某插件"
+}
+```
+
+## 插件版本号(version)
+插件版本号，可省略，默认值："0.0.0"版本。  
+
+需要遵循[samver格式](https://samver.org/)，依靠此字段判断插件版本更新。
+
+``` typescript
+module.exports = {
+    version: "0.0.0"
+}
+```
+
+## 匹配的APP版本号(appVersion)
+兼容app版本号，可省略，默认值：">0.0.0"，即所有版本都可以使用。遵循格式可以看[这里](https://docs.npmjs.com/cli/v6/using-npm/semver#ranges)。     
+
+如果当前app版本不满足此处声明的版本号约束，则在app内无法使用此插件，并会有红色提示。
+
+``` typescript
+module.exports = {
+    appVersion: ">0.0.0"
+}
+```
+
+## 插件远程更新地址(srcUrl)
+插件的更新地址(http:xxxx.js)，可省略。  
+
+如果存在此字段，app内插件页就会出现“更新插件”按钮，点击会下载此字段指定的插件，并自动安装。
+
+![更新插件](https://i.328888.xyz/2023/03/26/iDIZbX.png)
+
+``` typescript
+module.exports = {
+    srcUrl: "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/xxx/index.js"
+}
+```
+
+## 主键(primaryKey)
+主键，通常是插件方法中必须的参数，取值为字符串数组，可省略，默认为["id"]。 
+
+这个数组中应当包含获取音乐资源（getMediaSource）、获取歌词（getLyric）中所有的必须的字段。（比如有的音源除了id外，可能还需要一些其他的字段定位歌曲资源）
+
+``` typescript
+module.exports = {
+    primaryKey: ['id', 'aid', 'bid', 'cid', 'did']
+}
+```
+
+## 缓存策略(cacheControl)
+插件的缓存策略，主要用于getMediaSource方法返回的结果（注意不是音乐文件本身的缓存，是插件结果的缓存），如某个音乐资源的音源URL等。   
+
+取值为 no-cache 、 no-store、或cache。可选，如果不填默认为"no-cache"
+
+简言之：如果音源URL有过期时间，指定为no-cache或no-store；  
+如果获取音源URL不需要额外网络请求，指定为no-store；  
+如果音源URL为固定链接，且不会轻易改变或删除，指定为cache。
+
+``` typescript
+module.exports = {
+    cacheControl: 'no-cache' // 'cache' 'no-store'
+}
+```
+
+
+#### cache
+播放音乐媒体时，获取某个媒体的音源URL后会缓存至本地；下次播放同个媒体时会返回缓存的音源URL。（此时如果有本地音乐缓存，会直接命中音乐文件的缓存）；
+
+#### no-cache
+播放音乐媒体时，获取某个媒体的音源URL后会缓存至本地；当网络处于**离线状态**时会返回缓存的音源URL，此时如果有该音乐的离线缓存，会直接命中音乐文件的缓存；当网络处于在线状态时，会获取最新的音源URL。
+
+#### no-store
+播放音乐媒体时，始终获取最新的音源URL。
+
+## 默认搜索类型(defaultSearchType)
+默认搜索类型，可省略，默认值为music，取值为 music、album或者artist，即音乐、专辑、作者。  
+
+app内搜索页开始搜索时，会自动对所有插件发起一次本字段指定类型的请求。 一般情况下可以忽略本字段。 
+
+（说人话：如果这个字段指定是album，那么搜索时就会优先搜索album）
+
+``` typescript
+module.exports = {
+    cacheControl: 'music'
+}
+```
+
+## 提示文案(hints)
+在部分场景下（如导入歌单时）需要用到的提示文案。可省略。该字段值为一个对象，对象的key为“importMusicSheet”(导入歌单)或“importMusicItem”(导入单曲)。
+
+``` typescript
+module.exports = {
+    hints: {
+        // 导入歌单浮层上的提示
+        importMusicSheet: [
+            "注意事项：导入歌单时需要XXX",
+            "第二点注意事项，导入歌单时需要XXX"
+        ],
+        // 导入单曲浮层上的提示
+        importMusicItem: [
+            "注意事项：导入单曲时需要XXX",
+            "第二点注意事项，导入单曲时需要XXX"
+        ],
+    }
+}
+```

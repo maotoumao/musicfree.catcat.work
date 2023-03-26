@@ -1,0 +1,492 @@
+---
+sidebar_position: 2
+---
+
+# 插件的方法
+
+插件实例中的方法用来定义插件的一些功能函数，如请求数据等，所有方法都可以省略，省略则意味着插件未实现对应的功能。
+
+插件功能缺失时，反映在UI上可能表现为：  
+1. 功能无法使用（如点击歌曲无法播放）；  
+2. 不展示该插件（如搜索结果中不展示某插件的搜索结果等）。
+
+| 方法名           | 入参                                                                                   | 返回值                                                               | 备注                               |
+| ---------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ---------------------------------- |
+| search           | 搜索关键词、页码、媒体类型                                                             | 见下                                                                 | 根据关键词搜索媒体资源             |
+| getMediaSource   | [MediaBase 类型音乐](/docs/tutorial-plugin/basic-type/mediaBaseType)、音质                   | 见下                                                                 | （根据音质）获取音源                           |
+| getMusicInfo     | [MediaBase 类型音乐](/docs/tutorial-plugin/basic-type/mediaBaseType)                   | 见下                                                                 | 获取音乐详情                       |
+| getLyric         | [MediaBase 类型音乐](/docs/tutorial-plugin/basic-type/mediaBaseType)                   | 见下                                                                 | 获取歌词                           |
+| getAlbumInfo     | [AlbumItem 类型专辑](/docs/tutorial-plugin/basic-type/albumItemType)、页码                   | 见下                                                                 | 获取完整的专辑信息（包括音乐列表） |
+| getArtistWorks   | [ArtistItem 类型作者](/docs/tutorial-plugin/basic-type/artistItemType)、页码、媒体类型 | 见下                                                                 | 获取某个作者的音乐/专辑            |
+| importMusicItem  | 包含目标链接的字符串                                                                   | [MusicItem 类型](/docs/tutorial-plugin/basic-type/musicItemType)音乐 | 导入单曲                           |
+| importMusicSheet | 包含目标链接的字符串                                                                   | [MusicItem 类型](/docs/tutorial-plugin/basic-type/musicItemType)数组 | 导入歌单                           |
+
+## 搜索(search)
+搜索方法，可省略。当用户在app内点击搜索、下拉刷新、触达搜索底部时调用。   
+当插件中没有此函数时，搜索结果的面板中就不会出现这个插件。
+
+### 方法签名
+```typescript
+    type SupportMediaType = 'music' | 'album' | 'artist';
+
+    type SupportMediaItem = {
+        music: IMusicItem;
+        album: IAlbumItem;
+        artist: IArtistItem;
+    };
+
+    interface ISearchResult<T extends SupportMediaType> {
+        isEnd?: boolean;
+        data: SupportMediaItem[T][];
+    }
+
+    type search = <T extends SupportMediaType>(
+        query: string,
+        page: number,
+        type: T,
+    ) => Promise<ISearchResult<T>>
+```
+
+### 参数和返回值
+方法的入参依次为：
+- query：字符串类型，为用户本次搜索的关键词；
+- page：数字类型，为用户本次搜索的页码；页码数从1开始；
+- type，取值为music、album或者artist，即音乐、专辑、作者。 
+
+方法的返回值为形如：
+```javascript
+    {
+        isEnd: true, // 是否到达页尾
+        data: [] // 媒体对象列表
+    }
+```
+的对象。   
+
+- isEnd为布尔类型，可省略。true表示当前关键词的搜索已结束（到达页尾，无更多数据）；为false表示还有下一页。如果省略，app内会按true进行处理。  
+- data为媒体类型数组的搜索结果。当入参的type为music时，此字段应当为[音乐类型](/docs/tutorial-plugin/basic-type/musicItemType)的数组；当入参的type为music时，此字段应当为[专辑类型](/docs/tutorial-plugin/basic-type/albumItemType)的数组；当入参的type为artist时，此字段应当为[作者类型](/docs/tutorial-plugin/basic-type/artistItemType)的数组；
+
+> 注意：你可以在搜索结果中扩展任何可被序列化的字段；这些字段在下文的获取音源方法中等也会被传入，因此最好保持你的插件基于“基本媒体类型”有固定字段的扩展，防止字段不兼容的情况发生。
+
+
+### 举例
+你可以把所有的逻辑都写在模块导出中：
+```javascript
+module.exports = {
+    async search(query, page, type){
+        // 搜索音乐
+        if(type === 'music') {
+            return {
+                isEnd: true,
+                data: []
+            };
+        } 
+        // 搜索专辑
+        if (type === 'album') {
+            return {
+                isEnd: true,
+                data: []
+            };
+        }
+        // 其他情况（搜索作者）
+        return {
+            isEnd: true,
+            data: []
+        }
+    }
+}
+```
+
+如果逻辑太多，维护成本太高的话，也可以拆到不同的函数中：
+```javascript
+const axios = require('axios');
+
+// 搜索歌曲
+async function searchMusic(query, page) {
+    // 网络请求
+    const result = (await axios.get("http://example.upup.fun", {
+        params: {
+            query: query,
+            page: page,
+            pageSize: 20,
+            otherParams: "something"
+        }
+    })).data;
+    
+    // 可以执行一些过滤逻辑，并把接口返回的结果映射为MusicItem类型的对象
+    return {
+        isEnd: true, // 分页已结束, 根据实际情况设置即可
+        data: result.map(item => ({
+            id: item.id,
+            title: item.title || '没有名字的音乐',
+            // ...
+        }))
+    };
+}
+
+// 搜索专辑
+async function searchAlbum(query, page) {
+
+    // 类似上述逻辑，只不过data内返回的是AlbumItem类型的对象
+    return {
+        isEnd: true, // 分页已结束, 根据实际情况设置即可
+        data: [
+            {
+                id: 'test001',
+                title: 'xxx',
+                // ...
+            }
+        ];
+    };
+}
+
+// 模块导出
+module.exports = {
+    async search(query, page, type){
+        // 搜索音乐
+        if(type === 'music') {
+            return searchMusic(query, page);
+        } 
+        // 搜索专辑
+        if (type === 'album') {
+            return searchAlbum(query, page);
+        }
+        // 其他情况（搜索作者）
+        return {
+            isEnd: true,
+            data: []
+        }
+    }
+}
+```
+
+# 播放/下载相关
+以下三个方法为播放/下载相关的方法。整体的过程示意图如下：
+
+![](https://i.328888.xyz/2023/03/26/iDrEOP.png)  
+
+## 获取音源(getMediaSource)
+获取音乐的真实URL，可省略。 
+
+当用户在app内点击播放、下载时调用。当插件中没有此函数时，会自动取入参[音乐类型](/docs/tutorial-plugin/basic-type/musicItemType)中的url字段（如果有）作为真实音源。
+第二个参数为音质，可以根据此参数返回不同音质的音源，也可以忽略此参数。
+
+APP内调用时，如果当前音质的音乐不存在，则会自动再次调用该函数，传入一个更高（或者更低）的音质。直至找到一个有效音质；或者播放/下载失败，跳过。
+
+### 方法签名
+```typescript
+    interface IMediaSourceResult {
+        /** 请求URL所需要的headers */
+        headers?: Record<string, string>;
+        /** 请求URL所需要的user-agent */
+        userAgent?: string;
+        /** 音源 */
+        url: string;
+    }
+
+    type getMediaSource = (musicItem: MusicItem, quality?: 'low' | 'standard' | 'high' | 'super') => Promise<IMediaSourceResult | null>
+```
+
+### 参数和返回值
+方法的入参为[音乐类型](/docs/tutorial-plugin/basic-type/musicItemType)，即搜索得到的音乐类型，可能包含一些你额外扩展的字段。  
+返回值为IMediaSourceResult或null。
+
+
+### 举例
+```javascript
+
+module.exports = {
+    async getMediaSource(musicItem) {
+        return {
+            url: "https://example.upup.fun/example.mp3"
+        }
+    }
+}
+```
+## 获取音乐详情(getMusicInfo)
+获取音乐详情的方法，可省略。
+当用户在app内**点击播放**时调用。
+
+> 播放时会先执行getMediaSource获取音源，接下来执行getMusicInfo获取完整的音乐信息。比如某些搜索结果中不包含专辑封面的歌曲，就可以在这里补充完整。
+
+### 方法签名
+```typescript
+    type getMusicInfo = (musicBase: MediaBase) => Promise<Partial<MusicItem> | null>;
+```
+
+### 参数和返回值
+方法的入参为：
+[MediaBase 类型音乐](/docs/tutorial-plugin/basic-type/mediaBaseType)  
+
+方法的返回值为该音乐的部分或者完整属性（即MusicItem类型的部分字段，其中platform字段和$字段会自动忽略）：
+
+### 举例
+```javascript
+module.exports = {
+    // 其他属性或方法...
+    async getMusicInfo(musicItem){
+        return {
+            artwork: "https://example.upup.fun/coverimage.png"
+        }
+    }
+}
+
+```
+
+## 获取歌词(getLyric)
+获取歌词，可省略。
+当用户在app内点击切换到歌词页时调用。app会优先使用返回值的rawLrc字段。
+
+### 方法签名
+```typescript
+    interface ILyricSource {
+        lrc?: string; // 歌词文件的链接
+        rawLrc?: string; // 文本格式的歌词
+    }
+
+    type getLyric = (musicItem: IMusic.IMusicItemBase) => Promise<ILyricSource | null>;
+```
+
+### 参数和返回值
+方法的入参为：
+[MediaBase 类型音乐](/docs/tutorial-plugin/basic-type/mediaBaseType)  
+
+方法的返回值为ILyricSource
+
+### 举例
+```javascript
+
+module.exports = {
+    async getLyric(musicItem){
+        return {
+            lrc: "http://xxx.lrc", // 链接
+            rawLrc: "[00:00.00]xxxx" // 文本格式的歌词
+        }
+    }
+}
+```
+
+
+## 获取专辑详情(getAlbumInfo)
+获取专辑详情，可省略。
+当用户进入到专辑详情页时调用，用来补全albumItem缺失的属性，以及获取专辑下的音乐列表。
+
+
+### 方法签名
+```typescript
+    interface IGetAlbumInfoResult = {
+        isEnd?: boolean;
+        musicList: MusicItem[],
+        albumItem?: Partial<AlbumItem>
+    }
+
+    type getAlbumInfo = (albumItem: AlbumItem, page: number) => Promise<IGetAlbumInfoResult>;
+```
+
+### 参数和返回值
+方法的入参为：[AlbumItem 类型专辑](/docs/tutorial-plugin/basic-type/albumItemType)以及当前页码（从1开始）  
+返回值包括三个字段：  
+1. isEnd: 专辑内歌曲是否已经到达页尾；默认是true
+2. musicList: 专辑内的歌曲列表
+3. albumItem: 专辑的其他信息
+
+
+### 举例
+```javascript
+
+module.exports = {
+    async getAlbumInfo(albumItem, page) {
+        return {
+            isEnd: true,
+            musicList: [],
+        }
+    }
+}
+```
+
+
+## 获取作者作品(getArtistWorks)
+获取作者作品，可省略。   
+当用户进入作者详情页时调用，用来获得作者的歌曲/专辑信息。
+
+### 方法签名
+```typescript
+    type ArtistMediaType = 'music' | 'album';
+
+    type getArtistWorks = <T extends ArtistMediaType>(
+        artistItem: ArtistItem,
+        page: number,
+        type: T,
+    ) => Promise<ISearchResult<T>>;
+```
+
+### 参数和返回值
+方法的入参依次为：
+- artistItem：[ArtistItem 类型作者](/docs/tutorial-plugin/basic-type/artistItemType)
+- page：数字类型，为用户本次搜索的页码；页码数从1开始；
+- type，字符串类型，取值为music、album，即音乐、专辑。 
+
+方法的返回同搜索的返回值，只不过没有“ArtistItem数组”。 
+
+
+### 举例
+```javascript
+
+module.exports = {
+    async getArtistWorks(artistItem, page, type){
+        // 获取作者的音乐
+        if(type === 'music') {
+            return {
+                isEnd: true,
+                data: []
+            }
+        }
+        // 获取作者的专辑
+        if (type === 'album') {
+            return {
+                isEnd: false,
+                data: []
+            }
+        }
+    }
+}
+
+```
+
+## 导入单曲(importMusicItem)
+导入单曲，可省略。省略时插件页不会看到“导入单曲”按钮。   
+当用户进入侧边栏插件页，点击“导入单曲”后会进行导入。
+
+### 方法签名
+```typescript
+    type importMusicItem = (urlLike: string) => Promise<MusicItem>
+```
+
+### 参数和返回值
+方法的入参为用户输入的字符串，你可以通过在插件中匹配特定的信息执行后续操作。 
+
+方法的返回值是一个[音乐类型](/docs/tutorial-plugin/basic-type/musicItemType)的对象。 
+
+
+### 举例
+```javascript
+const axios = require('axios');
+
+module.exports = {
+    async importMusicItem(urlLike){
+        const id = urlLike.match(/http:\/\/www\.foo\.bar\/([0-9]+)/)[1];
+        const musicItem = (await axios.get('http://bar.foo', {
+            params: {id}
+        })).data;
+        return musicItem;
+    }
+}
+```
+
+## 导入歌单(importMusicSheet)
+导入歌单，可省略。省略时插件页不会看到“导入歌单”按钮。   
+
+当用户进入侧边栏插件页，点击“导入歌单”后会进行导入。
+
+### 方法签名
+```typescript
+    type importMusicSheet = (urlLike: string) => Promise<MusicItem[]>
+```
+
+### 参数和返回值
+方法的入参为一个包含url的字符串。 
+
+方法的返回值是[音乐类型](/docs/tutorial-plugin/basic-type/musicItemType)的数组。 
+
+
+### 举例
+```javascript
+const axios = require('axios');
+
+module.exports = {
+    async importMusicSheet(urlLike){
+        const id = urlLike.match(/http:\/\/www\.foo\.bar\/([0-9]+)/)[1];
+        const musicItems = (await axios.get('http://bar.foo/getlist', {
+            params: {id}
+        })).data;
+        return musicItems;
+    }
+}
+
+```
+
+# 榜单
+以下两个方法为榜单用到的方法。
+## 获取榜单列表(getTopLists)
+获取榜单列表，可省略。  
+
+当插件中没有此函数时，首页-榜单面板中不会出现该插件。
+
+### 方法签名
+```typescript
+    interface ITopListResult {
+        title: string, // 榜单类别
+        data: IAlbumItem[] // 具体的榜单条目
+    }
+
+    type getTopLists = () => Promise<ITopListResult[]>
+```
+
+### 参数和返回值
+无入参。 
+
+方法的返回值是一个榜单列表对象。如果榜单是静态的（参数不会动态变化），可以直接硬编码在插件中。  
+
+
+### 举例
+```javascript
+
+module.exports = {
+    async getTopLists(){
+        return [{
+            title: "榜单类别1",
+            data: [{
+                id: "新歌榜的ID",
+                description: "新歌榜的描述",
+                coverImg: "新歌榜的封面",
+                title: "新歌榜",
+            }]
+        }]
+    }
+}
+```
+
+## 获取榜单详情(getTopListDetail)
+获取榜单详情（榜单中的音乐），可省略。  
+
+
+### 方法签名
+```typescript
+    type WithMusicList<T> = T & {
+        musicList?: IMusic.IMusicItem[];
+    };
+
+    type getTopListDetail = (topListItem: IAlbumItem) => Promise<WithMusicList<IAlbumItem>>
+```
+
+### 参数和返回值
+方法的入参是getTopLists返回的榜单条目。
+
+方法的返回值是一个带有音乐列表的榜单信息。  
+
+
+### 举例
+```javascript
+
+module.exports = {
+    async getTopListDetail(topListItem){
+        return {
+            id: "新歌榜的ID",
+            description: "新歌榜的描述",
+            coverImg: "新歌榜的封面",
+            title: "新歌榜",
+            musicList: []
+        };
+    }
+}
+```
+

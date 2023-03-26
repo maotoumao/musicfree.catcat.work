@@ -1,0 +1,8 @@
+{
+  "label": "基本媒体类型",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "基本媒体类型，即：“music”类型、“album”类型、“artist”类型，也是软件目前支持的媒体类型。具体来说，软件中所有的音乐都是MusicItem类型的对象；所有的专辑都是AlbumItem类型的对象；所有的作者都是ArtistItem类型的对象。插件实例函数中，入参和出参的媒体对象均需要符合基本媒体类型。"
+  }
+}

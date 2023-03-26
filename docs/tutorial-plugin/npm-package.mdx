@@ -1,0 +1,60 @@
+---
+sidebar_position: 3
+---
+
+# APP 内置的 npm 包
+
+插件中提供了一些 npm 包方便开发。你可以以 import/require 方式导入，方便开发者进行网络请求/加解密/转码/解析 html 等操作。具体使用方式可以参考对应的官方文档。
+
+## 可用的包及其版本
+
+| npm 包名                      | 版本        | 备注                                                    |
+| ----------------------------- | ----------- | ------------------------------------------------------- |
+| crypto-js                     | 4.4.1       | 加解密库                                                |
+| dayjs                         | 1.11.4      | 日期时间处理库                                          |
+| axios                         | 0.27.2      | 网络请求库                                              |
+| big-integer                   | 1.6.51      | 大整型数据处理库                                        |
+| qs                            | 6.11.0      | 参数序列化库                                            |
+| he                            | 1.2.0       | http 编码/解码库                                        |
+| cheerio                       | 1.0.0-rc.12 | http 文件解析库                                         |
+| @react-native-cookies/cookies | 6.2.1       | 处理 http 请求 Cookie 信息的库，Nodejs 环境下执行会报错 |
+
+## 示例
+
+```typescript
+/**
+ * 插件示例
+ */
+const axios = require("axios");
+const { load } = require("cheerio");
+const CryptoJs = require("crypto-js");
+
+async function getUrl() {
+  //** 参考axios的官方文档即可 */
+  const res = (
+    await axios.get("http://foo.bar", {
+      headers: {},
+      params: {},
+    })
+  ).data;
+  /** 参考cheerio的官方文档即可 */
+  const $ = load(res);
+  /** 参考crypto-js的官方文档即可 */
+  const decodeExample = CryptoJs.enc.Base64.parse("base64string").toString(
+    CryptoJs.enc.Utf8
+  );
+  // 其余类似
+  return {
+    test1: "test1",
+    test2: 2,
+    test3: true,
+  };
+}
+
+module.exports = {
+  // ... 插件实例对象
+  platform: "插件名",
+  version: "0.0.0",
+  // ...
+};
+```
