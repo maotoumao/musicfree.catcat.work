@@ -1,7 +1,24 @@
 {
+  "name": "musicfree.upup.fun",
+  "version": "1.0.0",
+  "description": "MusicFree 站点",
+  "main": "index.js",
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maotoumao/musicfree.upup.fun.git"
+  },
+  "author": "猫头猫",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maotoumao/musicfree.upup.fun/issues"
+  },
+  "homepage": "https://github.com/maotoumao/musicfree.upup.fun#readme",
+  "devDependencies": {
+    "vue": "^3.3.7"
   }
 }
