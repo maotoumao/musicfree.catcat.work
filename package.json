@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/maotoumao/musicfree.upup.fun#readme",
   "devDependencies": {
+    "vitepress": "^1.0.0-rc.24",
     "vue": "^3.3.7"
   }
 }
