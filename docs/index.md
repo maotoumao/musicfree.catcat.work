@@ -25,16 +25,11 @@ hero:
 features:
   - title: 插件化
     details: 软件默认是一个本地音乐播放器，可以通过<strong>【插件】</strong>自定义源。
-    linkText: 了解插件
     icon: 🛠️
   - title: 开源，免费
-    details: 基于 GPL 3.0 协议开源，APP 不接受任何形式的商用&内置广告，仅供学习参考。
-    link: https://github.com/maotoumao/
-    linkText: 获取代码
+    details: <p>基于 GPL 3.0 协议开源，APP 不接受任何形式的商用&内置广告，将会一直保持免费，仅供学习参考。</p><br /><p><strong>如遇到付费购买或付费版本，请勿购买！！！</strong></p>
     icon: 💖
   - title: 版本更新
-    details: <p>获取最新消息、反馈问题或者提供建议可以关注公众号<strong>【一只猫头猫】</strong>。</p><p>不定期更新（尽量保证更新频率）。</p>
-    link: https://github.com/maotoumao/MusicFree
-    linkText: 获取更新信息
+    details: <p>获取最新消息、反馈问题或者提供建议可以关注公众号<strong>【一只猫头猫】</strong>。</p><p>不定期更新（尽量保证更新频率）。</p><br /><p><strong>除公众号及 Github 外，无任何发布渠道；如在应用市场或其他途径发现同名应用请谨慎下载，防止上当受骗！！！</strong></p>
     icon: 🆕
 ---
