@@ -13,10 +13,3 @@ import HomeImage from './home-image.vue'
 const { Layout } = DefaultTheme
 </script>
   
-<style scoped>
-.wow {
-  width: 200px;
-  height: 200px;
-  background: red;
-}
-</style>
