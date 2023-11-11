@@ -4,27 +4,24 @@ on:
         branches:
             - master
     workflow_dispatch:
-permissions:
-    contents: write
 jobs:
     deploy: 
         runs-on: ubuntu-latest
+        permissions:
+            pages: write
+            id-token: write
         steps:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
                 node-version: 16
-            - name: Get current time
-              uses: josStorer/get-current-time@v2.0.2
-              id: current-time
-              with:
-                format: YYYY-MM-DD HH:mm:SS
-                utcOffset: "+08:00"
             - run: npm install
             - run: npm run docs:build
-            - run: git checkout gh-page
-            - run: git add .
-            - run: git commit -am "Deploy Page At ${{ steps.current-time.outputs.formattedTime }}"
-            - run: git push -f origin gh-page
+            - name: Upload Pages artifact
+              uses: actions/upload-pages-artifact@v2
+              with: 
+                  path: docs/.vitepress/dist
+            - name: Deploy
+              uses: actions/deploy-pages@v2
             
             
