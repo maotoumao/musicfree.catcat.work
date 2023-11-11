@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <img src="img/wechat_channel.jpg" />
+    <img src="/img/wechat_channel.jpg" />
   </div>
 </template>
 
