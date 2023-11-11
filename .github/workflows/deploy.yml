@@ -23,5 +23,11 @@ jobs:
                   path: docs/.vitepress/dist
             - name: Deploy
               uses: actions/deploy-pages@v2
+            - run: cd docs/.vitepress/dist
+            - run: git init
+            - run: git add -A
+            - run: git commit -m "Deploy"
+            - run: git push -f git@github.com:maotoumao/musicfree.upup.fun.git master:gh-pages
+            - run: git push -f git@gitee.com:musicfree/musicfree.upup.fun.git master:gh-pages
             
             
