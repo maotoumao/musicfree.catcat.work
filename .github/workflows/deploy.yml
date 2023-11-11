@@ -25,5 +25,16 @@ jobs:
                 BRANCH: gh-pages
                 FOLDER: docs/.vitepress/dist
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Generate knownHost
+              run: ssh-keyscan gitee.com > giteeKnownHosts
+            - name: Deploy
+              uses: s0/git-publish-subdir-action@develop
+              env:
+                REPO: git@gitee.com:musicfree/MusicFree.git
+                BRANCH: gh-pages
+                FOLDER: docs/.vitepress/dist
+                SSH_PRIVATE_KEY: ${{ secrets.GITEE_DEPLOY_PRIVATE_KEY }}
+                KNOWN_HOSTS_FILE: giteeKnownHosts
+                
             
             
