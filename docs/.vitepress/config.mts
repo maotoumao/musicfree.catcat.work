@@ -130,6 +130,9 @@ export default defineConfig({
       },
       text: "最近更新",
     },
+    editLink: {
+      pattern: 'https://github.com/maotoumao/musicfree.upup.fun/edit/master/docs/:path'
+    }
   },
   assetsDir: "static",
 });
