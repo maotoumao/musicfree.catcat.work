@@ -3,7 +3,7 @@ import { defineConfig } from "vitepress";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "MusicFree",
-  description: "MusicFree 文档站",
+  description: "MusicFree —— 一个插件化、定制化、无广告的音乐播放器。",
   lang: "zh-cn",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
