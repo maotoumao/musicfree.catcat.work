@@ -38,10 +38,10 @@ jobs:
             - name: Build Gitee Pages
               uses: yanglbme/gitee-pages-action@main
               with:
-              gitee-username: maotoumao
-              gitee-password: ${{ secrets.GITEE_PASSWORD }}
-              gitee-repo: musicfree/MusicFree
-              branch: gh-pages
+                gitee-username: maotoumao
+                gitee-password: ${{ secrets.GITEE_PASSWORD }}
+                gitee-repo: musicfree/MusicFree
+                branch: gh-pages
                 
             
             
