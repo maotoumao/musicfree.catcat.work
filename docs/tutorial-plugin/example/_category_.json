@@ -1,8 +1,0 @@
-{
-  "label": "举个栗子",
-  "position": 6,
-  "link": {
-    "type": "generated-index",
-    "description": "我们以一个第三方音乐网站freesound为例，做一个支持搜索、播放、导入单曲功能的插件。"
-  }
-}
