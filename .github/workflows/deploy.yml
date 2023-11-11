@@ -24,7 +24,7 @@ jobs:
             - run: npm run docs:build
             - run: git checkout gh-page
             - run: git add .
-            - run: git commit -am "Deploy Page: ${{ steps.current-time.outputs.formattedTime }}"
+            - run: git commit -am "Deploy Page At ${{ steps.current-time.outputs.formattedTime }}"
             - run: git push -f origin gh-page
             
             
