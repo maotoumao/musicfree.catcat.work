@@ -25,6 +25,6 @@ jobs:
             - run: git checkout gh-page
             - run: git add .
             - run: git commit -am "Deploy Page: ${{ steps.current-time.outputs.formattedTime }}"
-            - run: git push origin gh-page
+            - run: git push -f origin gh-page
             
             
