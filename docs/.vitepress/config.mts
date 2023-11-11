@@ -24,6 +24,10 @@ export default defineConfig({
           },
         ],
       },
+      {
+        text: "国内镜像",
+        link: "https://musicfree.gitee.io"
+      }
     ],
     logo: "/img/logo.png",
     sidebar: {
