@@ -24,11 +24,11 @@ jobs:
                   path: docs/.vitepress/dist
             - name: Deploy
               uses: actions/deploy-pages@v2
-            - run: ls
-            - run: cd ./docs/.vitepress/dist
-            - run: ls
             - run: git init && git add -A && git commit -m "Deploy"
+              working-directory: ./docs/.vitepress/dist
             - run: git push -f git@github.com:maotoumao/musicfree.upup.fun.git master:gh-pages
+              working-directory: ./docs/.vitepress/dist
             - run: git push -f git@gitee.com:musicfree/musicfree.upup.fun.git master:gh-pages
+              working-directory: ./docs/.vitepress/dist
             
             
