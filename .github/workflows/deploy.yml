@@ -22,14 +22,11 @@ jobs:
               with: 
                   path: docs/.vitepress/dist
             - name: Deploy
-              uses: actions/deploy-pages@v2
-            - run: git init && git config --global user.email "lhx_xjtu@163.com" && git config --global user.name "maotoumao"
-              working-directory: ./docs/.vitepress/dist
-            - run: git add -A && git commit -m "Deploy"
-              working-directory: ./docs/.vitepress/dist
-            - run: git push -f git@github.com:maotoumao/musicfree.upup.fun.git master:gh-pages
-              working-directory: ./docs/.vitepress/dist
-            - run: git push -f git@gitee.com:musicfree/musicfree.upup.fun.git master:gh-pages
-              working-directory: ./docs/.vitepress/dist
+              uses: s0/git-publish-subdir-action@develop
+              env:
+                REPO: self
+                BRANCH: gh-pages
+                FOLDER: docs/.vitepress/dist
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             
             
