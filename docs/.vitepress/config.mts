@@ -137,6 +137,16 @@ export default defineConfig({
       pattern:
         "https://github.com/maotoumao/musicfree.upup.fun/edit/master/docs/:path",
     },
+    search: {
+      provider: "algolia",
+      options: {
+        appId: "W5IICABEJY",
+        apiKey: "8db476f936633af2908717789658045a",
+        insights: true,
+        indexName: "musicfree-upup",
+        placeholder: "输入要搜索的内容..."
+      },
+    },
   },
   head: [
     [
