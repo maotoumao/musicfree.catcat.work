@@ -49,6 +49,8 @@ outline: deep
 
 ## 原理
 
+#### 插件的本质
+
 插件本质上是一个 **导出特定数据结构** 的 `Common JS 模块`。如果你开发过前端项目，并且配置过 `webpack.config.js`，你可能会对开发插件的方式感到熟悉。
 
 插件中的配置可以大体分为两类：一类是用来说明插件信息的 **属性**（比如插件名、插件的版本号）；另一类是让软件在合适的时机调用的 **函数**（比如获取音源的函数等）。
@@ -75,7 +77,39 @@ module.exports = {
 
 关于插件在代码中的实现细节可以 [参考这里](https://mp.weixin.qq.com/s/pjyOjTDrV85ImRQ6EWbgAg)。桌面版的实现机制和安卓版略有差异，但基本原理相同。
 
+#### 插件加载的原理
+
+之前说过，MusicFree 的插件其实是满足某种规范的 js 文件，它独立于软件存在，**软件启动的时候会去特定的文件夹下搜索 js 文件，并加载到程序中。**
+
+以手机版为例，程序中存储插件的路径是 `Android/data/{包名}/files/plugins`。
+
+MusicFree 的包名是 `fun.upup.musicfree`，所以你可以尝试打开一下手机文件管理的 `Android/data/fun.upup.musicfree/files/plugins` 路径，你会发现一系列 `xxx.js` 文件。
+
+<div class="img-container"><img src="/img/plugin-list.jpg" /></div>
+
+如果想要查看具体内容的话，你可以把后缀名改成 `.txt`，并打开（记得改回去）。
+
+<div class="img-container"><img src="/img/plugin-content.jpg" /></div>
+
+
+可以看到 `module.exports` 有一些字段，这些其实都和程序中一一对应，比如 `platform` 代表这个插件的名字，`version` 代表这个插件的版本号，以及如果有 `srcUrl` 字段的话，那么这就是用于插件更新的远程地址。
+
+插件的加载逻辑做的比较重，因此对于基于 MusicFree 开发的软件，如果不做大的改动，插件大概率也会以**本地文件**的形式存储在 `Android/data/{包名}/files/plugins` 路径下，并且也可以被 MusicFree 加载。
+
+:::tip 总结
 已安装的插件实际上是被拷贝到了固定路径，安卓是 `Android/data/fun.upup.musicfree/files/plugins`；桌面端是 `C://Users/{userName}/AppData/Roaming/MusicFree/musicfree-plugins`。每次启动应用时，都会从对应路径下扫描并加载插件。
+:::
+
+#### 插件安装的原理
+
+插件安装时，首先会检测当前有没有安装过同名插件。所谓同名，就是指 `platform` 字段相同，如果相同就会认为是同一个插件。
+
+接下来，会去根据插件的 `version` 字段对比版本。如果本地已经存在更新版本 (要安装的版本号小于本地版本号) 的插件，那么插件会安装失败。
+
+版本号是类似于 `1.2.3` 的形式，比较的时候从后往前比，比如 `1.2.4 > 1.2.3`，`2.0.0 > 1.99.99`。**因此，如果要安装旧版本的插件，需要先卸载本地的更新版本的插件，然后再安装旧版。**
+
+如果以上验证通过，那么接下来就开始安装插件了。安装的过程就是往存储插件的路径里写入一个 `js` 文件，为了避免冲突，这个文件的名字会**随机生成**。
+
 
 ## 生命周期
 
