@@ -25,7 +25,17 @@ export default defineConfig({
         ],
       },
       {
-        text: "国内镜像",
+        text: "😈我要进群",
+        items: [{
+          text: "微信公众号",
+          link: "/img/wechat_channel.jpg"
+        }, {
+          text: "QQ频道",
+           link: "https://pd.qq.com/s/e7od7dpgu"
+        }]
+      },
+      {
+        text: "💫国内镜像",
         link: "https://musicfree.gitee.io",
       },
     ],
