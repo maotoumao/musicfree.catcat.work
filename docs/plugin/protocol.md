@@ -277,6 +277,19 @@ module.exports = {
 
 :::
 
+### 用户变量 (userVariables) <Badge type="tip" text="可选" /> <Badge type="warning" text="安卓版 >0.1.2-alpha.0" />
+
+用户变量，用来定义一些在插件中会使用到的，由用户定义的变量。
+
+该字段值是一个数组，数组的每一项是个对象，其键值如下表：
+
+|        键名        |   值类型   |              说明               |
+| :----------------: | :--------: | :-----------------------------: |
+| `key` | `string` | 该变量的键 |
+| `title`  | `string` | 该变量展示在软件面板中的名称，可选 |
+
+定义后，插件中可通过 `env.getUserVariables()` 获取用户输入的值。
+
 ## 插件函数
 
 > 在开始之前，你也可以先看一下 [typescript 文档](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#functions) 关于函数类型的部分。
