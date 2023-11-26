@@ -2,6 +2,25 @@
 outline: deep
 ---
 
+<style scoped>
+    .img-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .img-container img {
+        width: 50%;
+    }
+
+    @media (max-width: 640px) {
+        .img-container img {
+            width: 100%;
+        }
+    }
+
+</style>
+
 # 插件协议
 
 本节介绍一个标准的 MusicFree 插件应该满足的数据结构，也就是通过 `module.exports` 导出的对象应当有哪些字段。
@@ -283,12 +302,60 @@ module.exports = {
 
 该字段值是一个数组，数组的每一项是个对象，其键值如下表：
 
-|        键名        |   值类型   |              说明               |
-| :----------------: | :--------: | :-----------------------------: |
-| `key` | `string` | 该变量的键 |
-| `title`  | `string` | 该变量展示在软件面板中的名称，可选 |
+|  键名   |  值类型  |                说明                |
+| :-----: | :------: | :--------------------------------: |
+|  `key`  | `string` |             该变量的键             |
+| `title` | `string` | 该变量展示在软件面板中的名称，可选 |
 
 定义后，插件中可通过 `env.getUserVariables()` 获取用户输入的值。
+
+::: details 🌰 举个例子：
+
+在插件中以如下方式定义：
+
+```javascript
+module.exports = {
+  userVariables: [
+    {
+      key: "test1",
+      title: "变量1",
+    },
+    {
+      key: "test2",
+    },
+  ],
+
+  // ...其他字段
+};
+```
+
+在手机端对应插件中会显示如下面板：
+
+<div class="img-container"><img src="/img/user-variables.jpg" /></div>
+
+在插件中，你可以在任意一个地方调用：
+
+````javascript
+
+function someFunc(){
+  const userVariables = env.getUserVariables(); // 返回 { test1: "", test2: "" }
+}
+
+module.exports = {
+  userVariables: [
+    {
+      key: "test1",
+      title: "变量1",
+    },
+    {
+      key: "test2",
+    },
+  ],
+
+  // ...其他字段
+};
+
+:::
 
 ## 插件函数
 
@@ -312,7 +379,7 @@ module.exports = {
 async function pluginMethod() {
   return "字符串";
 }
-```
+````
 
 ### 搜索 (search)
 
