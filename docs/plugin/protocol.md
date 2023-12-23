@@ -31,6 +31,8 @@ outline: deep
 module.exports = {
   // 插件名称
   platform: "某插件",
+  // 插件作者
+  author: "插件作者",
   // 插件版本号
   version: "0.0.0",
   // 插件更新地址
@@ -91,7 +93,7 @@ module.exports = {
     // ...
   },
   // 获取榜单详情
-  async getTopListDetail(topListItem) {
+  async getTopListDetail(topListItem, page) {
     // ...
   },
   // 获取推荐歌单 tag
@@ -122,6 +124,23 @@ module.exports = {
   platform: "某插件",
 
   // ... 其他字段
+};
+```
+
+:::
+
+### 插件作者 (author) <Badge type="tip" text="可选" />
+
+插件的作者，可省略。此字段只用于展示。
+
+::: details 🌰 举个例子：
+
+```javascript
+module.exports = {
+  // 插件作者
+  author: "某位大佬",
+
+  // ...其他字段
 };
 ```
 
@@ -1078,14 +1097,15 @@ module.exports = {
 ::: details 函数签名
 
 ```typescript
-type WithMusicList<T> = T & {
-  musicList?: IMusicItem[];
-};
-
+interface ITopListInfoResult {
+  isEnd?: boolean;
+  topListItem?: IMusic.IMusicSheetItem;
+  musicList?: IMusic.IMusicItem[];
+}
 // 获取榜单详情
 type getTopListDetail = (
   topListItem: IMusicSheetItem
-) => Promise<WithMusicList<IMusicSheetItem>>;
+) => Promise<ITopListInfoResult>;
 ```
 
 :::
@@ -1094,15 +1114,22 @@ type getTopListDetail = (
 
 - 入参：
 
-函数接收 1 个参数
+函数接收 2 个参数
 
 |    参数名     |       类型        | 说明                                                                      |
 | :-----------: | :---------------: | :------------------------------------------------------------------------ |
 | `topListItem` | `IMusicSheetItem` | 榜单条目，即 `getTopLists` 返回的榜单分组列表中的某一个 `IMusicSheetItem` |
+|    `page`     |     `number`      | 页码，从 `1` 开始                                                         |
 
 - 返回值
 
-返回值是个 `Promise<IMusicSheetItem>` 数组，也就是 `IMusicSheetItem` 数据结构的榜单详情。需要注意，返回的数据中需要有 `musicList` 字段，这个字段中的值是当前榜单下的所有音乐：
+返回值是个 `Promise` 对象，其键值类型如下：
+
+|     键名      |       类型        | 说明                            |
+| :-----------: | :---------------: | :------------------------------ |
+|    `isEnd`    |     `boolean`     | 是否到达列表结尾，默认为 `true` |
+| `topListItem` | `IMusicSheetItem` | 补充说明的歌单信息              |
+|  `musicList`  |  `IMusicItem[]`   | 当前页码的歌曲                  |
 
 ::: details 🌰 举个例子：
 
@@ -1114,10 +1141,6 @@ module.exports = {
     // 获取榜单详情
 
     return {
-      id: "新歌榜的ID",
-      description: "新歌榜的描述",
-      coverImg: "新歌榜的封面",
-      title: "新歌榜",
       musicList: [],
     };
   },
