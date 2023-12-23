@@ -52,7 +52,7 @@ onMounted(async () => {
 
 每次更新时都会在公众号【一只猫头猫】推送，也可以在公众号回复【MusicFree】或【桌面版】获取下载地址:
 
-<div class="wechat-channel"><img src="/public/img/wechat_channel.jpg" /></div>
+<div class="wechat-channel"><img src="/img/wechat_channel.jpg" /></div>
 
 ## :yellow_heart: Github
 
