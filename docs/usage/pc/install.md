@@ -60,11 +60,9 @@ onMounted(async () => {
 
 [MusicFree 桌面版 Github Releases](https://github.com/maotoumao/MusicFreeDesktop/releases)
 
-## :blue_heart: 蓝奏云
+## :blue_heart: 云盘
 
-目前所有的版本都会上传到蓝奏云，地址如下：
-
-[MusicFree 桌面版 蓝奏云下载地址](https://wwzb.lanzoue.com/b042da1xe)
+目前所有的版本会上传到云盘中，可在站点首页跳转到下载地址。
 
 
 ## :question: 我应该安装哪个文件

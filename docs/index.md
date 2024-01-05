@@ -11,10 +11,10 @@ hero:
   actions:
     - theme: brand
       text: PC 版下载
-      link: https://wwzb.lanzoue.com/b042da1xe
+      link: https://www.123pan.com/s/grz2jv-IPkAA.html
     - theme: brand
       text: 安卓版下载
-      link: https://wwzb.lanzoue.com/s/MusicFree
+      link: https://www.123pan.com/s/grz2jv-JPkAA.html
     - theme: alt
       text: PC 版源代码
       link: https://github.com/maotoumao/MusicFreeDesktop
