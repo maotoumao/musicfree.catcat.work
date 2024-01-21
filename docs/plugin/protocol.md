@@ -677,8 +677,8 @@ type getLyric = (musicItem: IMusicItem) => Promise<ILyricSource | null>;
 返回值是个 `Promise` 对象，其内容键值类型如下：
 | 键名 | 类型 | 说明 |
 | :-------------: | :-----------: | :---- |
-| `rawLrc`| `string` | 带时间戳的文本格式的歌词文件，如 `[00:00.00] 第一句歌词`。 |
-| `translation`| `string` | 带时间戳的文本格式的翻译文件，如 `[00:00.00] 第一句歌词`。 |
+| `rawLrc`| `string` | 带时间戳的文本格式的歌词文件，如 `[00:00.00] First Lyric` |
+| `translation`| `string` | 带时间戳的文本格式的翻译文件，如 `[00:00.00] 第一句歌词` |
 
 
 ::: details 🌰 举个例子：
