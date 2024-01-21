@@ -652,8 +652,8 @@ module.exports = {
 
 ```javascript
 interface ILyricSource {
-  lrc?: string; // 歌词文件的链接
   rawLrc?: string; // 文本格式的歌词
+  translation?: string; // 文本格式的翻译
 }
 
 // 获取歌词函数签名
@@ -677,10 +677,9 @@ type getLyric = (musicItem: IMusicItem) => Promise<ILyricSource | null>;
 返回值是个 `Promise` 对象，其内容键值类型如下：
 | 键名 | 类型 | 说明 |
 | :-------------: | :-----------: | :---- |
-| `lrc` | `string` | 歌词文件的链接 URL |
 | `rawLrc`| `string` | 带时间戳的文本格式的歌词文件，如 `[00:00.00] 第一句歌词`。 |
+| `translation`| `string` | 带时间戳的文本格式的翻译文件，如 `[00:00.00] 第一句歌词`。 |
 
-如果同时返回 `lrc` 和 `rawLrc`，会优先使用 `rawLrc` 字段。
 
 ::: details 🌰 举个例子：
 根据音乐获取歌词：
@@ -691,8 +690,8 @@ module.exports = {
 
   async getLyric(musicItem) {
     return {
-      lrc: "http://xxx.lrc", // 链接
-      rawLrc: "[00:00.00] 第一句歌词", // 文本格式的歌词
+      rawLrc: "[00:00.00] First Lyric", // 文本格式的歌词
+      translation: "[00:00.00] 第一句歌词", // 文本格式的歌词
     };
   },
 };
