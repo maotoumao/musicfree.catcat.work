@@ -411,12 +411,13 @@ async function pluginMethod() {
 ::: details 函数签名
 
 ```javascript
-type SupportMediaType = 'music' | 'album' | 'artist' | 'sheet';
+type SupportMediaType = 'music' | 'album' | 'artist' | 'sheet' | 'lyric';
 type SupportMediaItem = {
     music: IMusicItem;
     album: IAlbumItem;
     artist: IArtistItem;
     sheet: IMusicSheetItem;
+    lyric: IMusicItem
 };
 interface ISearchResult<T extends SupportMediaType> {
     isEnd?: boolean;

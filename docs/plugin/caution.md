@@ -19,6 +19,21 @@ const f = async () => {
 
 `PC` 版基本上没有语法不支持的情况。
 
+## 网络请求
+在安卓端，网络请求默认会带一些headers，具体示例如下，其中前四项是固定值：
+
+```
+accept: application/json, text/plain, */*
+Accept-Encoding: gzip
+Connection: Keep-Alive
+User-Agent: okhttp/4.10.0
+Host: musicfree.upup.fun
+If-Modified-Since: Thu, 15 Feb 2024 06:07:49 GMT
+```
+
+如果某些请求在 node.js 环境可以正常发起，但在 app 中无法加载，可以检查一下是否由于默认 headers 导致。
+
+
 ## 性能相关
 
 插件是一开始就通过 `Function` 的形式 hook 进了 `js` 引擎中，也就是插件和 app 的代码运行在同一个环境下，不会有需要序列化/反序列化之类的可能比较耗时的问题，插件方法的返回值比较大也无所谓（虽然可能后续处理会更耗时）。
