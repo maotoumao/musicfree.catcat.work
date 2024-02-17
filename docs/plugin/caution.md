@@ -20,7 +20,7 @@ const f = async () => {
 `PC` 版基本上没有语法不支持的情况。
 
 ## 网络请求
-在安卓端，网络请求默认会带一些headers，具体示例如下，其中前四项是固定值：
+在安卓端，网络请求默认会带一些 headers，具体示例如下，其中前四项是固定值：
 
 ```
 accept: application/json, text/plain, */*
