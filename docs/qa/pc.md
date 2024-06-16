@@ -25,3 +25,14 @@ win10/11 可以安装任意一个 setup.exe，**但最好安装不带`legacy`标
 ## 如何批量操作歌曲
 
 在歌单内，按住 `shift` 操作歌曲，然后右键操作即可。也可以按 `Ctrl + A` 全选后右键操作。
+
+
+## Mac M芯片 提示文件已损坏
+
+安装软件后打开控制台，输入：
+
+```
+xattr -r -d com.apple.quarantine /Applications/MusicFree.app
+```
+
+回车，即可正常使用软件。
