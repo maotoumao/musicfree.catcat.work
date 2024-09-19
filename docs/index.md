@@ -14,7 +14,7 @@ hero:
       link: https://www.123pan.com/s/grz2jv-IPkAA.html
     - theme: brand
       text: 安卓版下载
-      link: https://www.123pan.com/s/grz2jv-JPkAA.html
+      link: https://r0rvr854dd1.feishu.cn/drive/folder/KLqKfWOA3lx8MKdo8xNcYpR8n7t
     - theme: alt
       text: PC 版源代码
       link: https://github.com/maotoumao/MusicFreeDesktop

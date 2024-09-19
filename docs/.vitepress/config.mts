@@ -34,10 +34,10 @@ export default defineConfig({
            link: "https://pd.qq.com/s/e7od7dpgu"
         }]
       },
-      {
-        text: "💫国内镜像",
-        link: "https://musicfree.gitee.io",
-      },
+      // {
+      //   text: "💫国内镜像",
+      //   link: "https://musicfree.gitee.io",
+      // },
     ],
     logo: "/img/logo.png",
     sidebar: {
@@ -125,7 +125,7 @@ export default defineConfig({
     footer: {
       copyright:
         "Copyright © 2022-present @<a href='https://github.com/maotoumao'>猫头猫</a>",
-      message: "代码基于 GPL 协议开源，仅供学习参考使用。",
+      message: "代码基于 AGPL 协议开源，仅供学习参考使用。",
     },
     returnToTopLabel: "返回顶部",
     socialLinks: [
