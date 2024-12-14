@@ -151,7 +151,7 @@ export default defineConfig({
     },
     editLink: {
       pattern:
-        "https://github.com/maotoumao/musicfree.upup.fun/edit/master/docs/:path",
+        "https://github.com/maotoumao/musicfree.catcat.work/edit/master/docs/:path",
     },
     search: {
       provider: "algolia",

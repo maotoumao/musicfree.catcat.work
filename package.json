@@ -1,5 +1,5 @@
 {
-  "name": "musicfree.upup.fun",
+  "name": "musicfree.catcat.work",
   "version": "1.0.0",
   "description": "MusicFree 站点",
   "main": "index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/maotoumao/musicfree.upup.fun.git"
+    "url": "git+https://github.com/maotoumao/musicfree.catcat.work.git"
   },
   "author": "猫头猫",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/maotoumao/musicfree.upup.fun/issues"
+    "url": "https://github.com/maotoumao/musicfree.catcat.work/issues"
   },
-  "homepage": "https://github.com/maotoumao/musicfree.upup.fun#readme",
+  "homepage": "https://github.com/maotoumao/musicfree.catcat.work#readme",
   "devDependencies": {
     "vitepress": "^1.0.0-rc.24",
     "vue": "^3.3.7"

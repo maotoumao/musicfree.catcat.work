@@ -36,7 +36,7 @@ module.exports = {
   // 插件版本号
   version: "0.0.0",
   // 插件更新地址
-  srcUrl: "https://example.upup.fun/xxx.js",
+  srcUrl: "https://example.catcat.work/xxx.js",
   // 主键
   primaryKey: ["id", "aid", "bid"],
   // 缓存策略
@@ -604,7 +604,7 @@ module.exports = {
   async getMediaSource(mediaItem, quality) {
     // 根据媒体对象获取源信息
     const fakeResult = (
-      await axios.get("https://example.upup.fun/getMediaUrl", {
+      await axios.get("https://example.catcat.work/getMediaUrl", {
         params: {
           id: mediaItem.id,
           quality: quality,
@@ -666,7 +666,7 @@ module.exports = {
   async getMusicInfo(musicItem) {
     // 根据音乐获取音乐详细信息
     return {
-      artwork: "https://example.upup.fun/coverimage.png",
+      artwork: "https://example.catcat.work/coverimage.png",
     };
   },
 };
