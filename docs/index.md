@@ -11,7 +11,7 @@ hero:
   actions:
     - theme: brand
       text: PC 版下载
-      link: https://www.123pan.com/s/grz2jv-IPkAA.html
+      link: https://r0rvr854dd1.feishu.cn/drive/folder/IrVEfD67KlWZGkdqwjecLHFNnBb
     - theme: brand
       text: 安卓版下载
       link: https://r0rvr854dd1.feishu.cn/drive/folder/KLqKfWOA3lx8MKdo8xNcYpR8n7t
