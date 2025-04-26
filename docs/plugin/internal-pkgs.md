@@ -15,7 +15,6 @@ APP 已经内置了一些 npm 包，以下包可以在插件中直接使用，�
 | qs                            | 6.11.0      | 参数序列化库                                            |
 | he                            | 1.2.0       | http 编码/解码库                                        |
 | cheerio                       | 1.0.0-rc.12 | http 文件解析库                                         |
-| @react-native-cookies/cookies | 6.2.1       | 处理 http 请求 Cookie 信息的库，Nodejs 环境下执行会报错 |
 | webdav                        | 5.3.1       | 处理 Webdav 的库                                        |
 
 举个例子：如果你需要在插件中使用 `axios`，你可以直接：

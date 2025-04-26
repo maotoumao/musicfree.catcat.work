@@ -150,9 +150,6 @@ npm run build
 
 前面说过，插件本质上是一个导出特定数据结构的 `Common JS 模块`。如果需要调试插件，你只需要在 node.js 环境下调用对应的函数，判断函数的返回值是否符合预期即可。
 
-::: warning
-如果使用到 `@react-native-cookies/cookies`，无法直接在 node.js 环境下调试，因为这个包有一些原生依赖。如果需要调试，需要启动 MusicFree 项目，并在软件内调试。
-:::
 
 ::: danger
 同样需要注意，插件内可以引入第三方库 (比如你想在插件中使用 lodash 等)，但插件内只能引入 <span style="color: var(--vp-c-danger-1)">纯 Javascript 库</span>，如果第三方库存在一些原生依赖，则无法使用。

@@ -168,3 +168,28 @@ interface IMusicSheetItem extends IMediaBase {
 ```
 
 MusicFree 协议中所有涉及到【歌曲】的概念，都应该符合 `IMusicItem` 数据结构。
+
+## 评论类型：IComment
+
+MusicFree 定义的评论类型。`IComment` 签名如下：
+```typescript
+interface IComment {
+    id?: string;
+    // 用户名
+    nickName: string;
+    // 头像
+    avatar?: string;
+    // 评论内容
+    comment: string;
+    // 点赞数
+    like?: number;
+    // 评论时间
+    createAt?: number;
+    // 地址
+    location?: string;
+    // 回复
+    replies?: Omit<IComment, 'replies'>[];
+}
+```
+
+MusicFree 协议中所有涉及到【评论】的概念，都应该符合 `IComment` 数据结构。

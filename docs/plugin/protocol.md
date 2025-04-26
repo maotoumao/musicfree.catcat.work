@@ -104,6 +104,10 @@ module.exports = {
   async getRecommendSheetsByTag(tag, page) {
     // ...
   },
+  // 获取某个音乐的评论
+  async getMusicComments(musicItem) {
+    // ...
+  }
 };
 ```
 
@@ -1326,6 +1330,156 @@ module.exports = {
           id: "xxxx",
           artwork: "xxx",
           playCount: 122220,
+        },
+      ],
+    };
+  },
+};
+```
+
+:::
+
+
+### 获取推荐歌单 tag (getRecommendSheetTags)
+
+获取热门歌单的 tag 分类，可省略。
+
+当用户进入推荐歌单页，且点击对应插件时，会调用此函数。
+
+::: details 函数签名
+
+```typescript
+interface ITag {
+  // tag 的唯一标识
+  id: string;
+  // tag 标题
+  title: string;
+}
+
+interface ITagGroup {
+  // 分组标题
+  title: string;
+  // tag 列表
+  data: ITag[];
+}
+
+interface IGetRecommendSheetTagsResult {
+  // 固定的tag
+  pinned?: ITag[];
+  // 更多面板中的tag
+  data?: ITagGroup[];
+}
+
+type getRecommendSheetTags = () => Promise<IGetRecommendSheetTagsResult>;
+```
+
+:::
+
+**参数**
+
+- 入参：
+
+函数没有入参。
+
+- 返回值
+
+返回值是个 `Promise<IGetRecommendSheetTagsResult>` 对象。其内容键值类型如下：
+
+|   键名   |     类型      | 说明                                                                                          |
+| :------: | :-----------: | :-------------------------------------------------------------------------------------------- |
+| `pinned` |    `ITag`     | 固定在顶部的 `tag`。每个 `tag` 至少包含 `id` 和 `title` 两个字段                              |
+|  `data`  | `ITagGroup[]` | `tag` 分组数组。<br /> 每个分组可选包含一个标题 `title`，以及该分组下的所有 `ITag` 类型的标签 |
+
+::: details 🌰 举个例子：
+
+```javascript
+module.exports = {
+  // ...
+
+  async getRecommendSheetTags() {
+    // 获取推荐歌单 tag
+    return {
+      pinned: [
+        {
+          id: "1",
+          title: "纯音乐",
+        },
+      ],
+      data: [
+        {
+          title: "年代",
+          data: [
+            {
+              id: "101",
+              title: "80后",
+            },
+            {
+              id: "102",
+              title: "90后",
+            },
+          ],
+        },
+      ],
+    };
+  },
+};
+```
+
+### 获取某个歌曲的评论 (getMusicComments)
+
+获取某个歌曲的评论，可省略。
+
+当用户点击评论图标时会调用此方法。
+
+::: details 函数签名
+
+```typescript
+// 获取某个 tag 下的所有歌单
+type getMusicComments = (
+  musicItem: IMusicItem
+) => Promise<{
+  isEnd: boolean;
+  data: Array<IComment>;
+}>;
+```
+
+:::
+
+**参数**
+
+- 入参：
+
+函数接收 1 个参数
+
+| 参数名 |   类型   | 说明              |
+| :----: | :------: | :---------------- |
+| `musicItem`  |  `IMusicItem`  | 某个歌曲       |
+
+
+- 返回值
+
+返回值是个 `Promise` 对象，其键值类型如下：
+
+|  键名   |        类型         | 说明                            |
+| :-----: | :-----------------: | :------------------------------ |
+| `isEnd` |      `boolean`      | 是否到达列表结尾，默认为 `true` |
+| `data`  | `IComment[]` | 评论列表                        |
+
+::: details 🌰 举个例子：
+
+```javascript
+module.exports = {
+  // ...
+
+  async getRecommendSheetsByTag(tagItem) {
+    // 获取某个 tag 下的所有歌单
+    return {
+      isEnd: false,
+      data: [
+        {
+          id: "评论1",
+          nickName: "https://xxx.jpg",
+          comment: "这是一条评论"
         },
       ],
     };
