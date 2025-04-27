@@ -15,7 +15,7 @@ jobs:
             - run: npm install
             - run: npm run docs:build
             - name: Upload Pages artifact
-              uses: actions/upload-pages-artifact@v2
+              uses: actions/upload-pages-artifact@v3
               with: 
                   path: docs/.vitepress/dist
             - name: 上传到 Github 的 gh-pages 分支
