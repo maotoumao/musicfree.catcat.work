@@ -1471,8 +1471,8 @@ type getMusicComments = (
 module.exports = {
   // ...
 
-  async getMusicComments(tagItem) {
-    // 获取某个 tag 下的所有歌单
+  async getMusicComments(musicItem) {
+    // 获取某个歌曲的所有评论
     return {
       isEnd: false,
       data: [
