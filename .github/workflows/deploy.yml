@@ -32,6 +32,7 @@ jobs:
                 BRANCH: gh-pages
                 FOLDER: docs/.vitepress/dist
                 GITHUB_TOKEN: ${{ secrets.SYNC_TOKEN }}
+                SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
             - name: 触发 maotoumao/catcat.work 的部署 Action
               uses: actions/github-script@v7
               with:
