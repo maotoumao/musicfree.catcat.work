@@ -162,9 +162,15 @@ export default defineConfig({
         indexName: "musicfree-upup",
         placeholder: "输入要搜索的内容..."
       },
-    },
-  },
+    },  },
   head: [
+    [
+      "meta",
+      {
+        name: "google-adsense-account",
+        content: "ca-pub-5122320974319096"
+      }
+    ],
     [
       "script",
       {},
