@@ -17,7 +17,7 @@ jobs:
             - name: Upload Pages artifact
               uses: actions/upload-pages-artifact@v3
               with: 
-                  path: docs/.vitepress/dist
+                  path: docs/.vitepress/dist            
             - name: 上传到 Github 的 gh-pages 分支
               uses: s0/git-publish-subdir-action@develop
               env:
@@ -25,6 +25,23 @@ jobs:
                 BRANCH: gh-pages
                 FOLDER: docs/.vitepress/dist
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: 上传到 maotoumao/catcat.work 的 gh-pages 分支
+              uses: s0/git-publish-subdir-action@develop
+              env:
+                REPO: https://github.com/maotoumao/catcat.work.git
+                BRANCH: gh-pages
+                FOLDER: docs/.vitepress/dist
+                GITHUB_TOKEN: ${{ secrets.SYNC_TOKEN }}
+            - name: 触发 maotoumao/catcat.work 的部署 Action
+              uses: actions/github-script@v7
+              with:
+                github-token: ${{ secrets.SYNC_TOKEN }}
+                script: |
+                  await github.rest.actions.createWorkflowDispatch({
+                    owner: 'maotoumao',
+                    repo: 'catcat.work',
+                    workflow_id: '部署'
+                  });
             # - name: Generate knownHost
             #   run: ssh-keyscan gitee.com > giteeKnownHosts
             # - name: 上传到 Gitee 的 gh-pages 分支
