@@ -41,7 +41,7 @@ jobs:
                   await github.rest.actions.createWorkflowDispatch({
                     owner: 'maotoumao',
                     repo: 'catcat.work',
-                    workflow_id: '部署'
+                    workflow_id: 'deploy.yml'
                   });
             # - name: Generate knownHost
             #   run: ssh-keyscan gitee.com > giteeKnownHosts
