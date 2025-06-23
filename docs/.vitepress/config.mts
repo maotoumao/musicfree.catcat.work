@@ -168,6 +168,24 @@ export default defineConfig({
       "script",
       {
         async: "",
+        src: "https://www.googletagmanager.com/gtag/js?id=G-5WJ13T82CX"
+      }
+    ],
+    [
+      "script",
+      {},
+      `
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5WJ13T82CX');
+      `
+    ],
+    [
+      "script",
+      {
+        async: "",
         src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5122320974319096",
         crossorigin: "anonymous"
       }
