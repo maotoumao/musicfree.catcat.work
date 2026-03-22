@@ -99,6 +99,10 @@ export default defineConfig({
           link: "/plugin/how-to-develop",
         },
         {
+          text: "🔥用 AI 开发 MusicFree 插件",
+          link: "/plugin/how-to-develop-with-ai",
+        },
+        {
           text: "内置的 npm 包",
           link: "/plugin/internal-pkgs",
         },
